@@ -2,11 +2,36 @@
 
 -- the old code was like 20 times the length of this
 
+ACFE.SmallThrust = CreateConVar( "acfe_thrust_small", "10000", {FCVAR_ARCHIVE}, "Thrust for small engines (in pound-force)" )
+ACFE.MediumThrust = CreateConVar( "acfe_thrust_medium", "20000", {FCVAR_ARCHIVE}, "Thrust for medium engines (in pound-force)" )
+ACFE.LargeThrust = CreateConVar( "acfe_thrust_large", "40000", {FCVAR_ARCHIVE}, "Thrust for large engines (in pound-force)" )
+
+cvars.AddChangeCallback( "acfe_thrust_small", function( name, old, new )
+    ACFE.ReloadThrust()
+end )
+cvars.AddChangeCallback( "acfe_thrust_medium", function( name, old, new )
+    ACFE.ReloadThrust()
+end )
+cvars.AddChangeCallback( "acfe_thrust_large", function( name, old, new )
+    ACFE.ReloadThrust()
+end )
+
+
+
+
+function ACFE.ReloadThrust()
+	
+	ACFE.SmallThrust = GetConVar( "acfe_thrust_small" ):GetFloat()
+	ACFE.MediumThrust = GetConVar( "acfe_thrust_medium" ):GetFloat()
+	ACFE.LargeThrust = GetConVar( "acfe_thrust_large" ):GetFloat()
+	
+end
+ACFE.ReloadThrust()
 
 
 -- ( isoptional = false ) thrust is mandatory, for dedicated jet engines
 -- ( isoptional = true ) thrust is optional, must be enabled via wire input
-function ACF.Extra.InjectThrust( ent, isoptional ) -- this should work for any engine
+function ACFE.InjectThrust( ent, isoptional ) -- this should work for any engine
 	
 	local model = ent:GetModel()
 	
@@ -15,10 +40,9 @@ function ACF.Extra.InjectThrust( ent, isoptional ) -- this should work for any e
 	local ismedium = string.find( model, "m.mdl" )
 	local islarge = string.find( model, "l.mdl" )
 	
-	-- these should be convars 2bh
-	local smallthrust = 64
-	local mediumthrust = 128
-	local largethrust = 256
+	local smallthrust = ACFE.SmallThrust * 0.00571
+	local mediumthrust = ACFE.MediumThrust * 0.00571
+	local largethrust = ACFE.LargeThrust * 0.00571
 	
 	-- set max thrust based on engine size
 	local maxthrust = ( islarge and largethrust ) or ( ismedium and mediumthrust ) or smallthrust
@@ -72,7 +96,7 @@ function ACF.Extra.InjectThrust( ent, isoptional ) -- this should work for any e
 	end
 	
 end
-function ACF.Extra.IsTurbine( ent )
+function ACFE.IsTurbine( ent )
 	
 	if ( IsValid( ent ) and ent:GetClass() == "acf_engine" ) then
 		
@@ -87,7 +111,7 @@ function ACF.Extra.IsTurbine( ent )
 	return false
 	
 end
-function ACF.Extra.IsPulsejet( ent )
+function ACFE.IsPulsejet( ent )
 	
 	if ( IsValid( ent ) and ent:GetClass() == "acf_engine" ) then
 		
@@ -111,15 +135,15 @@ hook.Add( "OnEntityCreated", "ACFE_Inject", function( ent )
 	 -- we need to wait till next think for the entity to be given a model
 	timer.Simple( 0, function()
 		
-		if ( ACF.Extra.IsTurbine( ent ) ) then
+		if ( ACFE.IsTurbine( ent ) ) then
 		
-			ACF.Extra.InjectThrust( ent, true )
+			ACFE.InjectThrust( ent, true )
 			
 		end
 		
-		if ( ACF.Extra.IsPulsejet( ent ) ) then
+		if ( ACFE.IsPulsejet( ent ) ) then
 		
-			ACF.Extra.InjectThrust( ent, false )
+			ACFE.InjectThrust( ent, false )
 			
 		end
 		
@@ -128,15 +152,15 @@ hook.Add( "OnEntityCreated", "ACFE_Inject", function( ent )
 end )
 hook.Add( "ACF_OnEntityUpdate", "ACFE_Inject", function( type, ent )
 	
-	if ( ACF.Extra.IsTurbine( ent ) ) then
+	if ( ACFE.IsTurbine( ent ) ) then
 	
-		ACF.Extra.InjectThrust( ent, true )
+		ACFE.InjectThrust( ent, true )
 		
 	end
 	
-	if ( ACF.Extra.IsPulsejet( ent ) ) then
+	if ( ACFE.IsPulsejet( ent ) ) then
 	
-		ACF.Extra.InjectThrust( ent, false )
+		ACFE.InjectThrust( ent, false )
 		
 	end
 		

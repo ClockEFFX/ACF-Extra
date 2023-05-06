@@ -7,7 +7,7 @@
 
 if ( ACF ) then
 	
-	ACF.Extra = ACF.Extra or {}
+	ACFE = ACFE or {}
 	
 	if ( SERVER ) then
 		
