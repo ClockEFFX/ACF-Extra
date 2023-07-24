@@ -1,103 +1,70 @@
-
-local ACF     = ACF
+local ACF = ACF
 local Engines = ACF.Classes.Engines
 
-if not Engines.Register then
-	Engines.Register = function(name,data) end
-end
-if not Engines.RegisterItem then
-	Engines.RegisterItem  = function(name,cat,data) end
-end
-
-Engines.Register("V2", {
+Engines.Register( "V2", {
 	Name = "V-Twin Engine",
 })
 
 
-
-
-local function ACF_DefineEngineold(name, data)
-	local fuel = {Petrol = true}
-	if data.fuel == "Petrol" then
-		 fuel		 = { Petrol = true }
-	elseif data.fuel == "Diesel" then
-		fuel		 = { Diesel = true }
-	elseif data.fuel == "Electric" then
-		fuel		 = { Electric  = true }
-	elseif data.fuel == "Multi" then
-		fuel		 = { Petrol  = true, Diesel = true}
-	end
-	Engines.RegisterItem(name, data.category, {
-		Name		 = data.name,
-		Description	 = data.desc,
-		Model		 = data.model,
-		Sound		 = data.sound,
-		Fuel		 = fuel,
-		Type		 = data.enginetype,
-		Mass		 = data.weight,
-		Torque		 = data.torque,
-		FlywheelMass = data.flywheelmass,
+do
+	
+	-- diesel
+	
+	Engines.RegisterItem( "0.8-V2", "V2", {
+		Name		 = "[ACFE] 836cc V-Twin Diesel",
+		Description	 = "Twin-cylinder diesel bike engine, torquey for its size.",
+		Model		 = "models/engines/v-twins2.mdl",
+		Sound		 = "acf_engines/vtwindiesels.wav",
+		Fuel		 = { Diesel = true },
+		Type		 = "GenericDiesel",
+		Mass		 = 50,
+		Torque		 = 70,
+		FlywheelMass = 0.02,
 		RPM = {
-			Idle	= data.idlerpm,
-			Limit	= data.limitrpm,
+			Idle	= 600,
+			Limit	= 6000,
 		},
 		Preview = {
 			FOV = 80,
 		},
 	})
+	
+	Engines.RegisterItem( "1.6-V2", "V2", {
+		Name		 = "[ACFE] 1600cc V-Twin Diesel",
+		Description	 = "Medium displacement V-Twin diesel engine.",
+		Model		 = "models/engines/v-twinm2.mdl",
+		Sound		 = "acf_engines/vtwindieselm.wav",
+		Fuel		 = { Diesel = true },
+		Type		 = "GenericDiesel",
+		Mass		 = 80,
+		Torque		 = 105,
+		FlywheelMass = 0.03,
+		RPM = {
+			Idle	= 625,
+			Limit	= 5250,
+		},
+		Preview = {
+			FOV = 80,
+		},
+	})
+	
+	Engines.RegisterItem( "3.2-V2", "V2", {
+		Name		 = "[ACFE] 3200cc V-Twin Diesel",
+		Description	 = "Huge fuckin' V-Twin DIESEL 'MURRICA FUCK YEAH! FUCK GREENPEACE!",
+		Model		 = "models/engines/v-twinl2.mdl",
+		Sound		 = "acf_engines/vtwindiesell.wav",
+		Fuel		 = { Diesel = true },
+		Type		 = "GenericDiesel",
+		Mass		 = 150,
+		Torque		 = 260,
+		FlywheelMass = 0.115,
+		RPM = {
+			Idle	= 350,
+			Limit	= 4000,
+		},
+		Preview = {
+			FOV = 80,
+		},
+	})
+	
 end
-
-
-
--- V-Twin Diesel engines
-
-ACF_DefineEngineold( "0.8-V2", {
-	name = "836cc V-Twin Diesel",
-	desc = "[ACFE] Twin cylinder Diesel bike engine, torquey for its size",
-	model = "models/engines/v-twins2.mdl",
-	sound = "acf_engines/vtwindiesels.wav",
-	category = "V2",
-	fuel = "Diesel",
-	enginetype = "GenericPetrol",
-	weight = 50,
-	torque = 70,
-	flywheelmass = 0.02,
-	idlerpm = 600,
-	peakminrpm = 3900,
-	peakmaxrpm = 5500,
-	limitrpm = 6000
-} )
-
-ACF_DefineEngineold( "1.6-V2", {
-	name = "1600cc V-Twin Diesel",
-	desc = "[ACFE] Large displacement vtwin diesel engine",
-	model = "models/engines/v-twinm2.mdl",
-	sound = "acf_engines/vtwindieselm.wav",
-	category = "V2",
-	fuel = "Diesel",
-	enginetype = "GenericPetrol",
-	weight = 80,
-	torque = 105,
-	flywheelmass = 0.03,
-	idlerpm = 625,
-	peakminrpm = 2900,
-	peakmaxrpm = 4500,
-	limitrpm = 5250
-} )
-
-ACF_DefineEngineold( "3.2-V2", {
-	name = "3100cc V-Twin Diesel",
-	desc = "[ACFE] Huge fucking Vtwin DIESEL 'MURRICA FUCK YEAH FUCK GREENPEACE",
-	model = "models/engines/v-twinl2.mdl",
-	sound = "acf_engines/vtwindiesell.wav",
-	category = "V2",
-	fuel = "Diesel",
-	enginetype = "GenericPetrol",
-	weight = 150,
-	torque = 260,
-	flywheelmass = 0.115,
-	idlerpm = 350,
-	peakminrpm = 2000,
-	peakmaxrpm = 3500,
-	limitrpm = 4000
-} )

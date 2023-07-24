@@ -1,102 +1,69 @@
-
-local ACF     = ACF
+local ACF = ACF
 local Engines = ACF.Classes.Engines
 
-if not Engines.Register then
-	Engines.Register = function(name,data) end
-end
-if not Engines.RegisterItem then
-	Engines.RegisterItem  = function(name,cat,data) end
-end
-
-Engines.Register("R3", {
+Engines.Register( "R3", {
 	Name = "Radial 3 Engine",
 })
 
 
-
-
-local function ACF_DefineEngineold(name, data)
-	local fuel = {Petrol = true}
-	if data.fuel == "Petrol" then
-		 fuel		 = { Petrol = true }
-	elseif data.fuel == "Diesel" then
-		fuel		 = { Diesel = true }
-	elseif data.fuel == "Electric" then
-		fuel		 = { Electric  = true }
-	elseif data.fuel == "Multi" then
-		fuel		 = { Petrol  = true, Diesel = true}
-	end
-	Engines.RegisterItem(name, data.category, {
-		Name		 = data.name,
-		Description	 = data.desc,
-		Model		 = data.model,
-		Sound		 = data.sound,
-		Fuel		 = fuel,
-		Type		 = data.enginetype,
-		Mass		 = data.weight,
-		Torque		 = data.torque,
-		FlywheelMass = data.flywheelmass,
+do
+	
+	-- Petrol
+	
+	Engines.RegisterItem( "1.2-R3", "R3", {
+		Name		 = "[ACFE] 1.2L Radial 3 Petrol",
+		Description	 = "Would make a good fidget spinner.",
+		Model		 = "models/engines/radial3s.mdl",
+		Sound		 = "acf_engines/r7_petrolsmall.wav",
+		Fuel		 = { Petrol = true },
+		Type		 = "GenericPetrol",
+		Mass		 = 70,
+		Torque		 = 120,
+		FlywheelMass = 0.10,
 		RPM = {
-			Idle	= data.idlerpm,
-			Limit	= data.limitrpm,
+			Idle	= 710,
+			Limit	= 5000,
+		},
+		Preview = {
+			FOV = 80,
+		},
+	})
+	
+	Engines.RegisterItem( "5.0-R3", "R3", {
+		Name		 = "[ACFE] 5.0L Radial 3 Petrol",
+		Description	 = "Medium sized radial 3.",
+		Model		 = "models/engines/radial3m.mdl",
+		Sound		 = "acf_engines/r7_petrolmedium.wav",
+		Fuel		 = { Petrol = true },
+		Type		 = "GenericPetrol",
+		Mass		 = 240,
+		Torque		 = 340,
+		FlywheelMass = 0.35,
+		RPM = {
+			Idle	= 700,
+			Limit	= 4000,
+		},
+		Preview = {
+			FOV = 80,
+		},
+	})
+	
+	Engines.RegisterItem( "11.0-R3", "R3", {
+		Name		 = "[ACFE] 11.0L Radial 3 Petrol",
+		Description	 = "Massive radial 3, for 'small' aircraft.",
+		Model		 = "models/engines/radial3b.mdl",
+		Sound		 = "acf_engines/r7_petrollarge.wav",
+		Fuel		 = { Petrol = true },
+		Type		 = "GenericPetrol",
+		Mass		 = 600,
+		Torque		 = 1025,
+		FlywheelMass = 3,
+		RPM = {
+			Idle	= 760,
+			Limit	= 3800,
 		},
 		Preview = {
 			FOV = 80,
 		},
 	})
 end
-
-
--- Radial engines
-
-ACF_DefineEngineold( "R3-1.2", {
-	name = "R3 1.2L Petrol",
-	desc = "[ACFE] A tiny, old worn-out radial.",
-	model = "models/engines/radial3s.mdl",
-	sound = "acf_engines/r7_petrolsmall.wav",
-	category = "R3",
-	fuel = "Petrol",
-	enginetype = "R3",
-	weight = 70,
-	torque = 120,
-	flywheelmass = 0.10,
-	idlerpm = 710,
-	peakminrpm = 2800,
-	peakmaxrpm = 4600,
-	limitrpm = 5000
-} )
-
-ACF_DefineEngineold( "R3-5.0", {
-	name = "R3 5.0 Petrol",
-	desc = "[ACFE] Mid range radial, thirsty and smooth",
-	model = "models/engines/radial3m.mdl",
-	sound = "acf_engines/r7_petrolmedium.wav",
-	category = "R3",
-	fuel = "Petrol",
-	enginetype = "R3",
-	weight = 240,
-	torque = 340,
-	flywheelmass = 0.35,
-	idlerpm = 700,
-	peakminrpm = 2300,
-	peakmaxrpm = 3800,
-	limitrpm = 4000
-} )
-
-ACF_DefineEngineold( "R3-11.0", {
-	name = "R3 11.0L Petrol",
-	desc = "[ACFE] Massive American radial monster, destined for aircraft and heavy things.",
-	model = "models/engines/radial3b.mdl",
-	sound = "acf_engines/r7_petrollarge.wav",
-	category = "R3",
-	fuel = "Petrol",
-	enginetype = "R3",
-	weight = 600,
-	torque = 1025,
-	flywheelmass = 3,
-	idlerpm = 760,
-	peakminrpm = 2200,
-	peakmaxrpm = 3400,
-	limitrpm = 3800
-} )

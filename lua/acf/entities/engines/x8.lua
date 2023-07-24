@@ -1,100 +1,70 @@
-
-local ACF     = ACF
+local ACF = ACF
 local Engines = ACF.Classes.Engines
 
-if not Engines.Register then
-	Engines.Register = function(name,data) end
-end
-if not Engines.RegisterItem then
-	Engines.RegisterItem  = function(name,cat,data) end
-end
-
-Engines.Register("X8", {
+Engines.Register( "X8", {
 	Name = "X8 Engine",
 })
 
 
-
-local function ACF_DefineEngineold(name, data)
-	local fuel = {Petrol = true}
-	if data.fuel == "Petrol" then
-		 fuel		 = { Petrol = true }
-	elseif data.fuel == "Diesel" then
-		fuel		 = { Diesel = true }
-	elseif data.fuel == "Electric" then
-		fuel		 = { Electric  = true }
-	elseif data.fuel == "Multi" then
-		fuel		 = { Petrol  = true, Diesel = true}
-	end
-	Engines.RegisterItem(name, data.category, {
-		Name		 = data.name,
-		Description	 = data.desc,
-		Model		 = data.model,
-		Sound		 = data.sound,
-		Fuel		 = fuel,
-		Type		 = data.enginetype,
-		Mass		 = data.weight,
-		Torque		 = data.torque,
-		FlywheelMass = data.flywheelmass,
+do
+	
+	-- petrol
+	
+	Engines.RegisterItem( "3.2-X8", "X8", {
+		Name		 = "[ACFE] 3.2L X8 Petrol",
+		Description	 = "Small X8, the most stupi-tarded way to make use of 8 cylinders.",
+		Model		 = "models/engines/x8s.mdl",
+		Sound		 = "acf_engines/r7_petrolsmall.wav",
+		Fuel		 = { Petrol = true },
+		Type		 = "GenericPetrol",
+		Mass		 = 179,
+		Torque		 = 310,
+		FlywheelMass = 0.10,
 		RPM = {
-			Idle	= data.idlerpm,
-			Limit	= data.limitrpm,
+			Idle	= 710,
+			Limit	= 4900,
 		},
 		Preview = {
 			FOV = 80,
 		},
 	})
+	
+	Engines.RegisterItem( "12.4-X8", "X8", {
+		Name		 = "[ACFE] 12.4L X8 Petrol",
+		Description	 = "Medium sized X8, a 'short bus' 8-cylinder.",
+		Model		 = "models/engines/x8m.mdl",
+		Sound		 = "acf_engines/r7_petrolmedium.wav",
+		Fuel		 = { Petrol = true },
+		Type		 = "GenericPetrol",
+		Mass		 = 520,
+		Torque		 = 720,
+		FlywheelMass = 0.45,
+		RPM = {
+			Idle	= 680,
+			Limit	= 3900,
+		},
+		Preview = {
+			FOV = 80,
+		},
+	})
+	
+	Engines.RegisterItem( "25.6-X8", "X8", {
+		Name		 = "[ACFE] 25.6L X8 Petrol",
+		Description	 = "Massive X8. Go ahead, i wont judge.",
+		Model		 = "models/engines/x8b.mdl",
+		Sound		 = "acf_engines/r7_petrollarge.wav",
+		Fuel		 = { Petrol = true },
+		Type		 = "GenericPetrol",
+		Mass		 = 1500,
+		Torque		 = 2025,
+		FlywheelMass = 2,
+		RPM = {
+			Idle	= 650,
+			Limit	= 3800,
+		},
+		Preview = {
+			FOV = 80,
+		},
+	})
+
 end
-
-
-
-ACF_DefineEngineold( "X8-3.2", {
-	name = "X8 3.2L Petrol",
-	desc = "[ACFE] A tiny, old worn-out X8 engine.",
-	model = "models/engines/x8s.mdl",
-	sound = "acf_engines/r7_petrolsmall.wav",
-	category = "X8",
-	fuel = "Petrol",
-	enginetype = "Radial",
-	weight = 179,
-	torque = 310,
-	flywheelmass = 0.10,
-	idlerpm = 710,
-	peakminrpm = 2600,
-	peakmaxrpm = 4500,
-	limitrpm = 4900
-} )
-
-ACF_DefineEngineold( "X8-12.4", {
-	name = "X8 12.4L Petrol",
-	desc = "[ACFE] Mid range X8 engine, thirsty and smooth",
-	model = "models/engines/x8m.mdl",
-	sound = "acf_engines/r7_petrolmedium.wav",
-	category = "X8",
-	fuel = "Petrol",
-	enginetype = "Radial",
-	weight = 520,
-	torque = 720,
-	flywheelmass = 0.45,
-	idlerpm = 680,
-	peakminrpm = 2200,
-	peakmaxrpm = 3600,
-	limitrpm = 3900
-} )
-
-ACF_DefineEngineold( "X8-25.6", {
-	name = "X8 25.6L Petrol",
-	desc = "[ACFE] Massive X8 monster, perfect for a vibrator.",
-	model = "models/engines/x8b.mdl",
-	sound = "acf_engines/r7_petrollarge.wav",
-	category = "X8",
-	fuel = "Petrol",
-	enginetype = "Radial",
-	weight = 1500,
-	torque = 2025,
-	flywheelmass = 2,
-	idlerpm = 650,
-	peakminrpm = 2100,
-	peakmaxrpm = 3200,
-	limitrpm = 3800
-} )

@@ -1,101 +1,70 @@
-
-local ACF     = ACF
+local ACF = ACF
 local Engines = ACF.Classes.Engines
 
-if not Engines.Register then
-	Engines.Register = function(name,data) end
-end
-if not Engines.RegisterItem then
-	Engines.RegisterItem  = function(name,cat,data) end
-end
-
-Engines.Register("X16", {
+Engines.Register( "X16", {
 	Name = "X16 Engine",
 })
 
 
-
-
-local function ACF_DefineEngineold(name, data)
-	local fuel = {Petrol = true}
-	if data.fuel == "Petrol" then
-		 fuel		 = { Petrol = true }
-	elseif data.fuel == "Diesel" then
-		fuel		 = { Diesel = true }
-	elseif data.fuel == "Electric" then
-		fuel		 = { Electric  = true }
-	elseif data.fuel == "Multi" then
-		fuel		 = { Petrol  = true, Diesel = true}
-	end
-	Engines.RegisterItem(name, data.category, {
-		Name		 = data.name,
-		Description	 = data.desc,
-		Model		 = data.model,
-		Sound		 = data.sound,
-		Fuel		 = fuel,
-		Type		 = data.enginetype,
-		Mass		 = data.weight,
-		Torque		 = data.torque,
-		FlywheelMass = data.flywheelmass,
+do
+	
+	-- petrol
+	
+	Engines.RegisterItem( "6.4-X16", "X16", {
+		Name		 = "[ACFE] 6.4L X16 Petrol",
+		Description	 = "Small X16.",
+		Model		 = "models/engines/x16s.mdl",
+		Sound		 = "acf_engines/r7_petrolsmall.wav",
+		Fuel		 = { Petrol = true },
+		Type		 = "GenericPetrol",
+		Mass		 = 360,
+		Torque		 = 620,
+		FlywheelMass = 0.10,
 		RPM = {
-			Idle	= data.idlerpm,
-			Limit	= data.limitrpm,
+			Idle	= 710,
+			Limit	= 4900,
 		},
 		Preview = {
 			FOV = 80,
 		},
 	})
+	
+	Engines.RegisterItem( "24.8-X16", "X16", {
+		Name		 = "[ACFE] 24.8L X16 Petrol",
+		Description	 = "Medium sized X16. Seriously, reconsider.",
+		Model		 = "models/engines/x16m.mdl",
+		Sound		 = "acf_engines/r7_petrolmedium.wav",
+		Fuel		 = { Petrol = true },
+		Type		 = "GenericPetrol",
+		Mass		 = 1040,
+		Torque		 = 1440,
+		FlywheelMass = 0.45,
+		RPM = {
+			Idle	= 680,
+			Limit	= 3900,
+		},
+		Preview = {
+			FOV = 80,
+		},
+	})
+	
+	Engines.RegisterItem( "57.2-X16", "X16", {
+		Name		 = "[ACFE] 57.2L X16 Petrol",
+		Description	 = "Massive X16, the result of someone mating four I4s to one crankshaft.",
+		Model		 = "models/engines/x16b.mdl",
+		Sound		 = "acf_engines/r7_petrollarge.wav",
+		Fuel		 = { Petrol = true },
+		Type		 = "GenericPetrol",
+		Mass		 = 3000,
+		Torque		 = 4050,
+		FlywheelMass = 2,
+		RPM = {
+			Idle	= 650,
+			Limit	= 3800,
+		},
+		Preview = {
+			FOV = 80,
+		},
+	})
+	
 end
-
-
-
-ACF_DefineEngineold( "X16-6.4", {
-	name = "X16 6.4L Petrol",
-	desc = "[ACFE] A tiny, old worn-out X16 engine.",
-	model = "models/engines/x16s.mdl",
-	sound = "acf_engines/r7_petrolsmall.wav",
-	category = "X16",
-	fuel = "Petrol",
-	enginetype = "Radial",
-	weight = 360,
-	torque = 620,
-	flywheelmass = 0.10,
-	idlerpm = 710,
-	peakminrpm = 2600,
-	peakmaxrpm = 4500,
-	limitrpm = 4900
-} )
-
-ACF_DefineEngineold( "X16-24.8", {
-	name = "X16 24.8L Petrol",
-	desc = "[ACFE] Mid range X16 engine, thirsty and smooth",
-	model = "models/engines/x16m.mdl",
-	sound = "acf_engines/r7_petrolmedium.wav",
-	category = "X16",
-	fuel = "Petrol",
-	enginetype = "Radial",
-	weight = 1040,
-	torque = 1440,
-	flywheelmass = 0.45,
-	idlerpm = 680,
-	peakminrpm = 2200,
-	peakmaxrpm = 3600,
-	limitrpm = 3900
-} )
-
-ACF_DefineEngineold( "X16-57.2", {
-	name = "X16 57.2L Petrol",
-	desc = "[ACFE] Massive X16 monster, perfect for a vibrator.",
-	model = "models/engines/x16b.mdl",
-	sound = "acf_engines/r7_petrollarge.wav",
-	category = "X16",
-	fuel = "Petrol",
-	enginetype = "Radial",
-	weight = 3000,
-	torque = 4050,
-	flywheelmass = 2,
-	idlerpm = 650,
-	peakminrpm = 2100,
-	peakmaxrpm = 3200,
-	limitrpm = 3800
-} )

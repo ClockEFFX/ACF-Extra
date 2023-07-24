@@ -1,100 +1,70 @@
-
-local ACF     = ACF
+local ACF = ACF
 local Engines = ACF.Classes.Engines
 
-if not Engines.Register then
-	Engines.Register = function(name,data) end
-end
-if not Engines.RegisterItem then
-	Engines.RegisterItem  = function(name,cat,data) end
-end
-
-Engines.Register("X20", {
+Engines.Register( "X20", {
 	Name = "X20 Engine",
 })
 
 
-
-local function ACF_DefineEngineold(name, data)
-	local fuel = {Petrol = true}
-	if data.fuel == "Petrol" then
-		 fuel		 = { Petrol = true }
-	elseif data.fuel == "Diesel" then
-		fuel		 = { Diesel = true }
-	elseif data.fuel == "Electric" then
-		fuel		 = { Electric  = true }
-	elseif data.fuel == "Multi" then
-		fuel		 = { Petrol  = true, Diesel = true}
-	end
-	Engines.RegisterItem(name, data.category, {
-		Name		 = data.name,
-		Description	 = data.desc,
-		Model		 = data.model,
-		Sound		 = data.sound,
-		Fuel		 = fuel,
-		Type		 = data.enginetype,
-		Mass		 = data.weight,
-		Torque		 = data.torque,
-		FlywheelMass = data.flywheelmass,
+do
+	
+	-- petrol
+	
+	Engines.RegisterItem( "8.0-X20", "X20", {
+		Name		 = "[ACFE] 8.0L X20 Petrol",
+		Description	 = "Small X20, Thats 2.5 Liters per cylinder!",
+		Model		 = "models/engines/x20s.mdl",
+		Sound		 = "acf_engines/r7_petrolsmall.wav",
+		Fuel		 = { Petrol = true },
+		Type		 = "GenericPetrol",
+		Mass		 = 450,
+		Torque		 = 790,
+		FlywheelMass = 0.10,
 		RPM = {
-			Idle	= data.idlerpm,
-			Limit	= data.limitrpm,
+			Idle	= 710,
+			Limit	= 4900,
 		},
 		Preview = {
 			FOV = 80,
 		},
 	})
+	
+	Engines.RegisterItem( "31.0-X20", "X20", {
+		Name		 = "[ACFE] 31.0L X20 Petrol",
+		Description	 = "Did you know rabies has a near 100% fatality rate? I Thought that was interesting.",
+		Model		 = "models/engines/x20m.mdl",
+		Sound		 = "acf_engines/r7_petrolmedium.wav",
+		Fuel		 = { Petrol = true },
+		Type		 = "GenericPetrol",
+		Mass		 = 1330,
+		Torque		 = 1810,
+		FlywheelMass = 0.45,
+		RPM = {
+			Idle	= 680,
+			Limit	= 3900,
+		},
+		Preview = {
+			FOV = 80,
+		},
+	})
+	
+	Engines.RegisterItem( "74.0-X20", "X20", {
+		Name		 = "[ACFE] 74.0L X20 Petrol",
+		Description	 = "Massive X20. Why stop here? why not go all the way?",
+		Model		 = "models/engines/x20b.mdl",
+		Sound		 = "acf_engines/r7_petrollarge.wav",
+		Fuel		 = { Petrol = true },
+		Type		 = "GenericPetrol",
+		Mass		 = 3800,
+		Torque		 = 5275,
+		FlywheelMass = 2,
+		RPM = {
+			Idle	= 650,
+			Limit	= 3800,
+		},
+		Preview = {
+			FOV = 80,
+		},
+	})
+	
 end
-
-
-
-ACF_DefineEngineold( "X20-8.0", {
-	name = "X20 8.0L Petrol",
-	desc = "[ACFE] A tiny, old worn-out X20 engine.",
-	model = "models/engines/x20s.mdl",
-	sound = "acf_engines/r7_petrolsmall.wav",
-	category = "X20",
-	fuel = "Petrol",
-	enginetype = "Radial",
-	weight = 450,
-	torque = 790,
-	flywheelmass = 0.10,
-	idlerpm = 710,
-	peakminrpm = 2600,
-	peakmaxrpm = 4500,
-	limitrpm = 4900
-} )
-
-ACF_DefineEngineold( "X20-31.0", {
-	name = "X20 31.0L Petrol",
-	desc = "[ACFE] Mid range X20 engine, thirsty and smooth",
-	model = "models/engines/x20m.mdl",
-	sound = "acf_engines/r7_petrolmedium.wav",
-	category = "X20",
-	fuel = "Petrol",
-	enginetype = "Radial",
-	weight = 1330,
-	torque = 1810,
-	flywheelmass = 0.45,
-	idlerpm = 680,
-	peakminrpm = 2200,
-	peakmaxrpm = 3600,
-	limitrpm = 3900
-} )
-
-ACF_DefineEngineold( "X20-74.0", {
-	name = "X20 74.0L Petrol",
-	desc = "[ACFE] Massive X20 monster, perfect for a vibrator.",
-	model = "models/engines/x20b.mdl",
-	sound = "acf_engines/r7_petrollarge.wav",
-	category = "X20",
-	fuel = "Petrol",
-	enginetype = "Radial",
-	weight = 3800,
-	torque = 5275,
-	flywheelmass = 2,
-	idlerpm = 650,
-	peakminrpm = 2100,
-	peakmaxrpm = 3200,
-	limitrpm = 3800
-} )
