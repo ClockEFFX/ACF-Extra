@@ -1,6 +1,10 @@
 
 
 -- the old code was like 20 times the length of this
+-- granted, it had features like thrust effects and thrust damage, but i dont think those ar needed
+-- people will just make their own thruster effects anyway so whats the point
+
+-- i think ALL turbine get thrust so that might be an issue?
 
 ACFE.SmallThrust = CreateConVar( "acfe_thrust_small", "10000", {FCVAR_ARCHIVE}, "Thrust for small engines (in pound-force)" )
 ACFE.MediumThrust = CreateConVar( "acfe_thrust_medium", "20000", {FCVAR_ARCHIVE}, "Thrust for medium engines (in pound-force)" )
@@ -21,9 +25,9 @@ end )
 
 function ACFE.ReloadThrust()
 	
-	ACFE.SmallThrust = GetConVar( "acfe_thrust_small" ):GetFloat()
-	ACFE.MediumThrust = GetConVar( "acfe_thrust_medium" ):GetFloat()
-	ACFE.LargeThrust = GetConVar( "acfe_thrust_large" ):GetFloat()
+	ACFE.SmallThrust = GetConVar( "acfe_thrust_small" ):GetFloat() or 10000
+	ACFE.MediumThrust = GetConVar( "acfe_thrust_medium" ):GetFloat() or 20000
+	ACFE.LargeThrust = GetConVar( "acfe_thrust_large" ):GetFloat() or 40000
 	
 end
 ACFE.ReloadThrust()
@@ -40,6 +44,7 @@ function ACFE.InjectThrust( ent, isoptional ) -- this should work for any engine
 	local ismedium = string.find( model, "m.mdl" )
 	local islarge = string.find( model, "l.mdl" )
 	
+	-- thanks for the help wil
 	local smallthrust = ACFE.SmallThrust * 0.00571
 	local mediumthrust = ACFE.MediumThrust * 0.00571
 	local largethrust = ACFE.LargeThrust * 0.00571
@@ -65,7 +70,7 @@ function ACFE.InjectThrust( ent, isoptional ) -- this should work for any engine
 		local inputdescs = {
 			"Turns the engine on or off",
 			"How much throttle to apply to the engine (100 is max)",
-			"Enable thrust for this engine"
+			"How much thrust the engine should output (100 is max)"
 		}
 		
 		WireLib.AdjustSpecialInputs( ent, inputnames, inputtypes, inputdescs )
@@ -73,26 +78,47 @@ function ACFE.InjectThrust( ent, isoptional ) -- this should work for any engine
 	end
 	
 	
-	-- replace the engines think
-	ent.Think = function( self )
-		
-		local physobj = self:GetPhysicsObject()
-		local active = ent.Inputs[ "Active" ].Value >= 1 and ( not isoptional or ent.Inputs[ "Thrust" ].Value > 0 )
-		
-		local yeah = ( self and self:IsValid() and physobj and physobj:IsValid() and active )
-		
-		if ( yeah ) then
+	-- add onto the engines think
+	if ( ACF.Repositories ) then -- acf 3
+		ent.Think = function( self )
 			
-			local rpm = self.FlyRPM / self.LimitRPM
+			local physobj = self:GetPhysicsObject()
+			local active = ent.Inputs[ "Active" ].Value >= 1 and ( not isoptional or ent.Inputs[ "Thrust" ].Value > 0 )
 			
-			local thrust = rpm * self.MaxThrust * 100
-			physobj:ApplyForceCenter( self:GetForward() * thrust )
+			local yeah = ( self and self:IsValid() and physobj and physobj:IsValid() and active )
+			
+			if ( yeah ) then
+				
+				local rpm = self.FlyRPM / self.LimitRPM
+				
+				local thrust = rpm * self.MaxThrust * math.Clamp( ent.Inputs[ "Thrust" ].Value, 0, 100 )
+				physobj:ApplyForceCenter( self:GetForward() * thrust )
+				
+			end
+			
+			-- make sure it runs at sv tickrate
+			self:NextThink( CurTime() )
+			return true
+		end
+	else -- acf 2?
+		-- think was taken so fuckin uhhhhhhhhhhhhh
+		ent.PhysicsUpdate = function( self )
+			
+			local physobj = self:GetPhysicsObject()
+			local active = ent.Inputs[ "Active" ].Value >= 1 and ( not isoptional or ent.Inputs[ "Thrust" ].Value > 0 )
+			
+			local yeah = ( self and self:IsValid() and physobj and physobj:IsValid() and active )
+			
+			if ( yeah ) then
+				
+				local rpm = self.FlyRPM / self.LimitRPM
+				
+				local thrust = rpm * self.MaxThrust * math.Clamp( ent.Inputs[ "Thrust" ].Value, 0, 100 )
+				physobj:ApplyForceCenter( self:GetForward() * thrust )
+				
+			end
 			
 		end
-		
-		-- make sure it runs at sv tickrate
-		self:NextThink( CurTime() )
-		return true
 	end
 	
 end
