@@ -132,7 +132,7 @@ do
 			FOV = 90,
 		},
 	})
-	
+
 	-- duplicate? idk leaving it here just in case
 	-- ACF_DefineFuelTankSizeold( "Battery_1x8x4", {
 		-- name = "1x8x4 Battery",
